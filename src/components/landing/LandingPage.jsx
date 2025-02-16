@@ -4,6 +4,7 @@ import Features from './Features'
 import LogoMarquee from './LogoMarquee'
 import Reviews from './Reviews'
 import Section from './Section'
+import Footer from './Footer'
 
 // Main landing page component that combines all sections
 function LandingPage() {
@@ -22,6 +23,10 @@ function LandingPage() {
             <Reviews></Reviews>
             </div>
 
+
+            <div className='mt-5'>
+            <Footer></Footer>
+            </div>
         </div>
     )
 }

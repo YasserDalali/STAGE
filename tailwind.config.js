@@ -10,6 +10,9 @@ export default {
         sans: ['Inter', 'sans-serif'],
         sora: ['Sora', 'sans-serif'],
       },
+      backgroundImage: {
+        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
+      },
       colors: {
         primary: "#00E0EE",
         secondary: "#AD00FE"
