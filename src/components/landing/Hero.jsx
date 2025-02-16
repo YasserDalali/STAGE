@@ -1,7 +1,7 @@
 import { AppWindow, AppWindowMacIcon, WindArrowDown } from "lucide-react"
 import Button from "../global/Button"
 import LogoMarquee from "./LogoMarquee"
-
+import imgSoft from "./software.png"
 // Hero section component for the landing page
 function Hero() {
     return (
@@ -34,7 +34,7 @@ function Hero() {
 
                     <div className="mt-12 opacity-0 animate-[scaleIn_1s_ease-out_1.5s_forwards]">
                         <img
-                            src="/public/assets/software.png"
+                            src={imgSoft}
                             alt="TicketFlow Dashboard"
                             className="rounded-3xl shadow-2xl w-full max-w-5xl mx-auto hover:scale-[1.02] transition-transform duration-500"
                         />
