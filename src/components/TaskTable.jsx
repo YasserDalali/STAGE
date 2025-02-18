@@ -5,18 +5,24 @@ import { useTable, useFilters, useSortBy, useGlobalFilter, usePagination } from 
 import PropTypes from "prop-types"
 
 const TaskTable = ({ tasks }) => {
-  const getUrgencyColor = (urgency) => {
-    switch (urgency.toLowerCase()) {
-      case "high":
+  const getPriorityColor = (priority) => {
+    switch (priority) {
+      case "HIGH":
         return "bg-red-100 text-red-800"
-      case "medium":
+      case "MEDIUM":
         return "bg-yellow-100 text-yellow-800"
-      case "low":
+      case "LOW":
         return "bg-green-100 text-green-800"
       default:
         return "bg-gray-100 text-gray-800"
     }
   }
+
+  const formatDate = (dateString) => {
+    if (!dateString) return 'No date';
+    return new Date(dateString).toLocaleDateString();
+  };
+
   const columns = useMemo(
     () => [
       {
@@ -24,28 +30,40 @@ const TaskTable = ({ tasks }) => {
         accessor: "title",
       },
       {
-        Header: "Assigner",
-        accessor: "assigner",
+        Header: "Description",
+        accessor: "description",
+        Cell: ({ value }) => value || "No description",
+      },
+      {
+        Header: "Status",
+        accessor: "status",
+        Cell: ({ value }) => (
+          <span className="px-2 py-1 rounded bg-gray-100">{value}</span>
+        ),
       },
       {
         Header: "Assignee(s)",
         accessor: "assignees",
-        Cell: ({ value }) => value.join(", "),
+        Cell: ({ value }) => value?.join(", ") || "Unassigned",
       },
       {
-        Header: "Created At",
+        Header: "Created",
         accessor: "createdAt",
-        Cell: ({ value }) => new Date(value).toLocaleDateString(),
+        Cell: ({ value }) => formatDate(value),
       },
       {
-        Header: "Due",
+        Header: "Due Date",
         accessor: "dueDate",
-        Cell: ({ value }) => new Date(value).toLocaleDateString(),
+        Cell: ({ value }) => formatDate(value),
       },
       {
-        Header: "Urgency",
-        accessor: "urgency",
-        Cell: ({ value }) => <span className={`px-2 py-1 rounded ${getUrgencyColor(value)}`}>{value}</span>,
+        Header: "Priority",
+        accessor: "priority",
+        Cell: ({ value }) => (
+          <span className={`px-2 py-1 rounded ${getPriorityColor(value)}`}>
+            {value}
+          </span>
+        ),
       },
     ],
     [],
@@ -222,11 +240,13 @@ TaskTable.propTypes = {
   tasks: PropTypes.arrayOf(
     PropTypes.shape({
       title: PropTypes.string.isRequired,
-      assigner: PropTypes.string.isRequired,
-      assignees: PropTypes.arrayOf(PropTypes.string).isRequired,
+      description: PropTypes.string,
+      status: PropTypes.oneOf(['TODO', 'IN_PROGRESS', 'DONE']).isRequired,
+      priority: PropTypes.oneOf(['LOW', 'MEDIUM', 'HIGH']).isRequired,
+      assignees: PropTypes.arrayOf(PropTypes.string),
+      dueDate: PropTypes.string,
       createdAt: PropTypes.string.isRequired,
-      dueDate: PropTypes.string.isRequired,
-      urgency: PropTypes.string.isRequired,
+      updatedAt: PropTypes.string.isRequired,
     })
   ).isRequired,
 }

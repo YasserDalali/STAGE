@@ -2,9 +2,9 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd"
 
 const KanbanBoard = ({ tasks, setTasks }) => {
   const columns = {
-    todo: { title: "To Do", items: tasks.filter((task) => task.status === "todo") },
-    inProgress: { title: "In Progress", items: tasks.filter((task) => task.status === "inProgress") },
-    done: { title: "Done", items: tasks.filter((task) => task.status === "done") },
+    TODO: { title: "To Do", items: tasks.filter((task) => task.status === "TODO") },
+    IN_PROGRESS: { title: "In Progress", items: tasks.filter((task) => task.status === "IN_PROGRESS") },
+    DONE: { title: "Done", items: tasks.filter((task) => task.status === "DONE") },
   }
 
   const onDragEnd = (result) => {
@@ -26,6 +26,11 @@ const KanbanBoard = ({ tasks, setTasks }) => {
     setTasks(updatedTasks)
   }
 
+  const formatDate = (dateString) => {
+    if (!dateString) return 'No due date';
+    return new Date(dateString).toLocaleDateString();
+  };
+
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <div className="flex space-x-4">
@@ -45,12 +50,21 @@ const KanbanBoard = ({ tasks, setTasks }) => {
                           className="bg-white p-4 rounded-md shadow-sm"
                         >
                           <h3 className="font-semibold">{task.title}</h3>
-                          <p className="text-sm text-gray-600">Assignee(s): {task.assignees.join(", ")}</p>
-                          <p className="text-sm text-gray-600">Due: {new Date(task.dueDate).toLocaleDateString()}</p>
+                          <p className="text-sm text-gray-600">
+                            {task.description && (
+                              <span className="block mb-2">{task.description}</span>
+                            )}
+                          </p>
+                          <p className="text-sm text-gray-600">
+                            Assignee(s): {task.assignees?.join(", ") || "Unassigned"}
+                          </p>
+                          <p className="text-sm text-gray-600">
+                            Due: {formatDate(task.dueDate)}
+                          </p>
                           <span
-                            className={`inline-block px-2 py-1 text-xs rounded-full ${getUrgencyColor(task.urgency)}`}
+                            className={`inline-block px-2 py-1 text-xs rounded-full ${getPriorityColor(task.priority)}`}
                           >
-                            {task.urgency}
+                            {task.priority}
                           </span>
                         </div>
                       )}
@@ -67,13 +81,13 @@ const KanbanBoard = ({ tasks, setTasks }) => {
   )
 }
 
-const getUrgencyColor = (urgency) => {
-  switch (urgency.toLowerCase()) {
-    case "high":
+const getPriorityColor = (priority) => {
+  switch (priority) {
+    case "HIGH":
       return "bg-red-100 text-red-800"
-    case "medium":
+    case "MEDIUM":
       return "bg-yellow-100 text-yellow-800"
-    case "low":
+    case "LOW":
       return "bg-green-100 text-green-800"
     default:
       return "bg-gray-100 text-gray-800"
