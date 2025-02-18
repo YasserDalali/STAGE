@@ -1,12 +1,6 @@
 import { flexRender } from "@tanstack/react-table"
 
 const TaskTableHeader = ({ headerGroups }) => {
-  // Check if headerGroups is defined and is an array
-  if (!headerGroups || !Array.isArray(headerGroups)) {
-    console.error("Invalid headerGroups:", headerGroups);
-    return null; // Return null or a fallback UI if headerGroups is invalid
-  }
-
   return (
     <thead className="bg-gray-50">
       {headerGroups.map((headerGroup) => (

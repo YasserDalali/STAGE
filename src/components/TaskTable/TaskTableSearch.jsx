@@ -1,5 +1,3 @@
-import React from 'react';
-
 const TaskTableSearch = ({ table }) => {
   return (
     <div className="p-4 bg-gray-50 border-b border-gray-200">
@@ -11,7 +9,8 @@ const TaskTableSearch = ({ table }) => {
         placeholder="Search tasks..."
       />
     </div>
-  );
+  )
 }
 
-export default TaskTableSearch;
+export default TaskTableSearch
+
