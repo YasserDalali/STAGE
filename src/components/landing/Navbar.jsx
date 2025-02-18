@@ -19,8 +19,8 @@ function Navbar() {
             }`}>
             <div className="mx-4 md:mx-20">
                 <div className="flex justify-between h-16 items-center opacity-0 animate-[fadeIn_0.5s_ease-out_forwards]">
-                    <div className="flex items-center group">
-                        <Ticket className="h-8 w-8 text-primary group-hover:rotate-12 transition-transform" />
+                    <div className="cursor-pointer flex items-center group">
+                        <Ticket className=" h-8 w-8 text-primary group-hover:rotate-12 transition-transform" />
                         <span className="ml-2 text-xl font-bold bg-gradient-to-r from-primary to-secondary text-transparent bg-clip-text">
                             TicketFlow
                         </span>
@@ -62,7 +62,7 @@ function Navbar() {
             </div>
 
             {/* Mobile Navigation */}
-            <div className={`md:hidden transition-all duration-300 ${isMenuOpen ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-10 pointer-events-none'
+            <div className={`md:hidden transition-all duration-300 ${isMenuOpen ? 'opacity-100 translate-y-0 ' : 'hidden opacity-0 -translate-y-10 pointer-events-none'
                 }`}>
                 <div className="px-4 pt-2 pb-3 space-y-1 backdrop-blur-md bg-white/70 shadow-lg">
                     {['Pricing', 'Features', 'Enterprise', 'Support'].map((item, index) => (
