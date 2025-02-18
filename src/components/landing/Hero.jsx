@@ -28,6 +28,9 @@ function Hero() {
                                     }
                                     content="Download for Windows"
                                 />
+
+                                <div>Agency member? <a className="">Login here
+                                    </a></div>
                             </div>
                         </div>
                     </div>
@@ -36,7 +39,7 @@ function Hero() {
                         <img
                             src={imgSoft}
                             alt="TicketFlow Dashboard"
-                            className="rounded-3xl shadow-2xl w-full max-w-5xl mx-auto hover:scale-[1.02] transition-transform duration-500"
+                            className="rounded-3xl shadow-2xl w-[90rem] hover:scale-[1.02] transition-transform duration-500"
                         />
                     </div>
                 </div>
