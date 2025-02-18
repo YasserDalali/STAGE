@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom"
 import Button from "../global/Button"
 import imgSoft from "./software.png"
 // Hero section component for the landing page
@@ -27,8 +28,8 @@ function Hero() {
                                     content="Download for Windows"
                                 />
 
-                                <div>Enterprise member? <a className="underline hover:font-semibold cursor-pointer transition-all">Login here
-                                    </a></div>
+                                <div>Enterprise member? <Link to={"/system"} className="underline hover:font-semibold cursor-pointer transition-all">Login here
+                                    </Link></div>
                             </div>
                         </div>
                     </div>

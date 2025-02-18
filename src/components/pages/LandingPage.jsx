@@ -5,6 +5,7 @@ import LogoMarquee from '../landing/LogoMarquee'
 import Reviews from '../landing/Reviews'
 import Section from '../landing/Section'
 import Footer from '../landing/Footer'
+import TaskTableSearch from '../main/tableView/TaskTableSearch'
 
 // Main landing page component that combines all sections
 function LandingPage() {
@@ -27,6 +28,7 @@ function LandingPage() {
             <div className='mt-5'>
             <Footer></Footer>
             </div>
+
         </div>
     )
 }
