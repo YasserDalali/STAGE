@@ -1,22 +1,16 @@
-import React from 'react'
-import TaskTable from '../components/main/tableView/TaskTable'
+import { Outlet } from "react-router-dom"
+import Sidebar from "../components/Sidebar"
 
-function System() {
-  const mockTasks = [
-    {
-      id: 1,
-      title: "Implement new feature",
-      assigner: "John Doe",
-      assignees: ["Alice", "Bob"],
-      createdAt: "2023-05-01",
-      dueDate: "2023-05-15",
-      urgency: "High",
-    },
-    // Add more mock tasks here...
-  ]
-
+const System = () => {
   return (
-    <div><TaskTable tasks={mockTasks} /></div>
+    <div className="flex h-screen bg-gray-100">
+      <Sidebar />
+      <main className="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100">
+        <div className="container mx-auto px-6 py-8">
+          <Outlet />
+        </div>
+      </main>
+    </div>
   )
 }
 

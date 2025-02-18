@@ -5,7 +5,6 @@ import LogoMarquee from '../components/landing/LogoMarquee'
 import Reviews from '../components/landing/Reviews'
 import Section from '../components/landing/Section'
 import Footer from '../components/landing/Footer'
-import TaskTableSearch from '../components/main/tableView/TaskTableSearch'
 
 // Main landing page component that combines all sections
 function LandingPage() {

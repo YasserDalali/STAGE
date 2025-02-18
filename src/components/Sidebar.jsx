@@ -9,7 +9,7 @@ const Sidebar = () => {
       </div>
       <nav className="flex-1 overflow-y-auto">
         <NavLink
-          to="/"
+          to="/kanban"
           className={({ isActive }) =>
             `flex items-center px-6 py-3 text-gray-600 hover:bg-gray-100 ${isActive ? "bg-gray-100" : ""}`
           }
