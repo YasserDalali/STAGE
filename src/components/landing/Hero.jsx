@@ -12,7 +12,7 @@ function Hero() {
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-24">
                     <div className="text-center">
                         <div className="lg:max-w-3xl mx-auto space-y-8 opacity-0 animate-[slideInDown_1s_ease-out_0.5s_forwards]">
-                            <h1 className="text-4xl max-w-sm md:text-7xl md:max-w-md mx-auto lg:text-9xl font-bold text-center">
+                            <h1 className="text-4xl max-w-sm md:text-7xl md:max-w-md mx-auto lg:text-9xl  lg:max-w-3xl font-bold text-center">
                                 Requests Made Easy
                             </h1>
                             <p className="text-base max-w-sm md:text-xl md:max-w-md text-gray-100 lg:max-w-2xl mx-auto">
