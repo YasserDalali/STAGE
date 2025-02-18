@@ -1,10 +1,10 @@
-import Navbar from './Navbar'
-import Hero from './Hero'
-import Features from './Features'
-import LogoMarquee from './LogoMarquee'
-import Reviews from './Reviews'
-import Section from './Section'
-import Footer from './Footer'
+import Navbar from '../landing/Navbar'
+import Hero from '../landing/Hero'
+import Features from '../landing/Features'
+import LogoMarquee from '../landing/LogoMarquee'
+import Reviews from '../landing/Reviews'
+import Section from '../landing/Section'
+import Footer from '../landing/Footer'
 
 // Main landing page component that combines all sections
 function LandingPage() {
