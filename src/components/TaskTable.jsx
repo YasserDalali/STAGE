@@ -1,10 +1,13 @@
 "use client"
 
 import { useState, useMemo } from "react"
+import { useTranslation } from "react-i18next"
 import { useTable, useFilters, useSortBy, useGlobalFilter, usePagination } from "react-table"
 import PropTypes from "prop-types"
 
 const TaskTable = ({ tasks }) => {
+  const { t } = useTranslation();
+
   const getPriorityColor = (priority) => {
     switch (priority) {
       case "HIGH":
@@ -19,54 +22,56 @@ const TaskTable = ({ tasks }) => {
   }
 
   const formatDate = (dateString) => {
-    if (!dateString) return 'No date';
+    if (!dateString) return t('common.noDate');
     return new Date(dateString).toLocaleDateString();
   };
 
   const columns = useMemo(
     () => [
       {
-        Header: "Title",
+        Header: t('tasks.title'),
         accessor: "title",
       },
       {
-        Header: "Description",
+        Header: t('tasks.description'),
         accessor: "description",
-        Cell: ({ value }) => value || "No description",
+        Cell: ({ value }) => value || t('tasks.noDescription'),
       },
       {
-        Header: "Status",
+        Header: t('tasks.status'),
         accessor: "status",
         Cell: ({ value }) => (
-          <span className="px-2 py-1 rounded bg-gray-100">{value}</span>
+          <span className="px-2 py-1 rounded bg-gray-100">
+            {t(`tasks.statuses.${value.toLowerCase()}`)}
+          </span>
         ),
       },
       {
-        Header: "Assignee(s)",
+        Header: t('tasks.assignees'),
         accessor: "assignees",
-        Cell: ({ value }) => value?.join(", ") || "Unassigned",
+        Cell: ({ value }) => value?.join(", ") || t('tasks.unassigned'),
       },
       {
-        Header: "Created",
+        Header: t('tasks.createdAt'),
         accessor: "createdAt",
         Cell: ({ value }) => formatDate(value),
       },
       {
-        Header: "Due Date",
+        Header: t('tasks.dueDate'),
         accessor: "dueDate",
         Cell: ({ value }) => formatDate(value),
       },
       {
-        Header: "Priority",
+        Header: t('tasks.priority'),
         accessor: "priority",
         Cell: ({ value }) => (
           <span className={`px-2 py-1 rounded ${getPriorityColor(value)}`}>
-            {value}
+            {t(`tasks.priorities.${value.toLowerCase()}`)}
           </span>
         ),
       },
     ],
-    [],
+    [t],
   )
 
   const {
@@ -116,7 +121,7 @@ const TaskTable = ({ tasks }) => {
         <input
           value={filterInput}
           onChange={handleFilterChange}
-          placeholder="Search tasks..."
+          placeholder={t('table.searchTasks')}
           className="w-full px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
         />
       </div>
@@ -184,9 +189,9 @@ const TaskTable = ({ tasks }) => {
             </button>
 
             <span className="flex items-center gap-1">
-              <span className="text-sm text-gray-700">Page</span>
+              <span className="text-sm text-gray-700">{t('table.page')}</span>
               <strong className="text-sm font-medium">
-                {state.pageIndex + 1} of {pageOptions.length}
+                {state.pageIndex + 1} {t('table.of')} {pageOptions.length}
               </strong>
             </span>
 
@@ -215,7 +220,7 @@ const TaskTable = ({ tasks }) => {
           {/* Page Size Selector */}
           <div className="flex items-center gap-2">
             <label htmlFor="pageSize" className="text-sm text-gray-700">
-              Rows per page:
+              {t('table.rowsPerPage')}
             </label>
             <select
               id="pageSize"

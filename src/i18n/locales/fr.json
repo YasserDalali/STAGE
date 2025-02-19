@@ -1,0 +1,47 @@
+{
+  "common": {
+    "loading": "Chargement...",
+    "error": "Erreur: {{message}}",
+    "create": "Créer",
+    "cancel": "Annuler",
+    "save": "Enregistrer",
+    "delete": "Supprimer",
+    "search": "Rechercher",
+    "noDate": "Pas de date"
+  },
+  "navigation": {
+    "kanban": "Tableau Kanban",
+    "table": "Vue Tableau",
+    "myTasks": "Mes Tâches"
+  },
+  "tasks": {
+    "title": "Titre",
+    "description": "Description",
+    "status": "Statut",
+    "priority": "Priorité",
+    "assignees": "Assignés",
+    "dueDate": "Date d'échéance",
+    "createdAt": "Créé le",
+    "noDescription": "Pas de description",
+    "unassigned": "Non assigné",
+    "createTask": "Créer une tâche",
+    "createNewTask": "Créer une nouvelle tâche",
+    "assigneesPlaceholder": "Jean Dupont, Marie Martin",
+    "statuses": {
+      "todo": "À faire",
+      "inProgress": "En cours",
+      "done": "Terminé"
+    },
+    "priorities": {
+      "low": "Basse",
+      "medium": "Moyenne",
+      "high": "Haute"
+    }
+  },
+  "table": {
+    "rowsPerPage": "Lignes par page:",
+    "page": "Page",
+    "of": "sur",
+    "searchTasks": "Rechercher des tâches..."
+  }
+}

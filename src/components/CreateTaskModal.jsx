@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import { createTaskAsync } from '../store/tasksThunks';
 
 const CreateTaskModal = ({ isOpen, onClose }) => {
     const dispatch = useDispatch();
+    const { t } = useTranslation();
     const [formData, setFormData] = useState({
         title: '',
         description: '',
@@ -57,11 +59,11 @@ const CreateTaskModal = ({ isOpen, onClose }) => {
     return (
         <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center">
             <div className="relative bg-white rounded-lg shadow-xl p-8 max-w-md w-full m-4">
-                <h2 className="text-2xl font-bold mb-6">Create New Task</h2>
+                <h2 className="text-2xl font-bold mb-6">{t('tasks.createNewTask')}</h2>
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">
-                            Title *
+                            {t('tasks.title')} *
                         </label>
                         <input
                             type="text"
@@ -75,7 +77,7 @@ const CreateTaskModal = ({ isOpen, onClose }) => {
 
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">
-                            Description
+                            {t('tasks.description')}
                         </label>
                         <textarea
                             name="description"
@@ -88,7 +90,7 @@ const CreateTaskModal = ({ isOpen, onClose }) => {
 
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">
-                            Status *
+                            {t('tasks.status')} *
                         </label>
                         <select
                             name="status"
@@ -97,15 +99,15 @@ const CreateTaskModal = ({ isOpen, onClose }) => {
                             required
                             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                         >
-                            <option value="TODO">To Do</option>
-                            <option value="IN_PROGRESS">In Progress</option>
-                            <option value="DONE">Done</option>
+                            <option value="TODO">{t('tasks.statuses.todo')}</option>
+                            <option value="IN_PROGRESS">{t('tasks.statuses.inProgress')}</option>
+                            <option value="DONE">{t('tasks.statuses.done')}</option>
                         </select>
                     </div>
 
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">
-                            Priority *
+                            {t('tasks.priority')} *
                         </label>
                         <select
                             name="priority"
@@ -114,29 +116,29 @@ const CreateTaskModal = ({ isOpen, onClose }) => {
                             required
                             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                         >
-                            <option value="LOW">Low</option>
-                            <option value="MEDIUM">Medium</option>
-                            <option value="HIGH">High</option>
+                            <option value="LOW">{t('tasks.priorities.low')}</option>
+                            <option value="MEDIUM">{t('tasks.priorities.medium')}</option>
+                            <option value="HIGH">{t('tasks.priorities.high')}</option>
                         </select>
                     </div>
 
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">
-                            Assignees (comma-separated)
+                            {t('tasks.assignees')}
                         </label>
                         <input
                             type="text"
                             name="assignees"
                             value={formData.assignees}
                             onChange={handleChange}
-                            placeholder="John Doe, Jane Smith"
+                            placeholder={t('tasks.assigneesPlaceholder')}
                             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                         />
                     </div>
 
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">
-                            Due Date
+                            {t('tasks.dueDate')}
                         </label>
                         <input
                             type="date"
@@ -153,13 +155,13 @@ const CreateTaskModal = ({ isOpen, onClose }) => {
                             onClick={onClose}
                             className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500"
                         >
-                            Cancel
+                            {t('common.cancel')}
                         </button>
                         <button
                             type="submit"
                             className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
                         >
-                            Create Task
+                            {t('common.create')}
                         </button>
                     </div>
                 </form>

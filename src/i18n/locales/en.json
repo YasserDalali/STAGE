@@ -1,0 +1,47 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "error": "Error: {{message}}",
+    "create": "Create",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "search": "Search",
+    "noDate": "No date"
+  },
+  "navigation": {
+    "kanban": "Kanban Board",
+    "table": "Table View",
+    "myTasks": "My Tasks"
+  },
+  "tasks": {
+    "title": "Title",
+    "description": "Description",
+    "status": "Status",
+    "priority": "Priority",
+    "assignees": "Assignees",
+    "dueDate": "Due Date",
+    "createdAt": "Created",
+    "noDescription": "No description",
+    "unassigned": "Unassigned",
+    "createTask": "Create Task",
+    "createNewTask": "Create New Task",
+    "assigneesPlaceholder": "John Doe, Jane Smith",
+    "statuses": {
+      "todo": "To Do",
+      "inProgress": "In Progress",
+      "done": "Done"
+    },
+    "priorities": {
+      "low": "Low",
+      "medium": "Medium",
+      "high": "High"
+    }
+  },
+  "table": {
+    "rowsPerPage": "Rows per page:",
+    "page": "Page",
+    "of": "of",
+    "searchTasks": "Search tasks..."
+  }
+}

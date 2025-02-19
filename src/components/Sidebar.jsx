@@ -1,11 +1,16 @@
 import { NavLink } from "react-router-dom"
 import { Squares2X2Icon as ViewBoardsIcon, TableCellsIcon as TableIcon, UserIcon } from "@heroicons/react/24/outline"
+import { useTranslation } from 'react-i18next'
+import LanguageToggle from './LanguageToggle'
 
 const Sidebar = () => {
+  const { t } = useTranslation();
+
   return (
     <div className="flex flex-col w-64 bg-white border-r">
-      <div className="flex items-center justify-center h-16 border-b">
+      <div className="flex items-center justify-between h-16 px-6 border-b">
         <span className="text-2xl font-semibold text-gray-800">Task Manager</span>
+        <LanguageToggle />
       </div>
       <nav className="flex-1 overflow-y-auto">
         <NavLink
@@ -15,7 +20,7 @@ const Sidebar = () => {
           }
         >
           <ViewBoardsIcon className="w-5 h-5 mr-3" />
-          <span>Kanban</span>
+          <span>{t('navigation.kanban')}</span>
         </NavLink>
         <NavLink
           to="/table"
@@ -24,7 +29,7 @@ const Sidebar = () => {
           }
         >
           <TableIcon className="w-5 h-5 mr-3" />
-          <span>Table</span>
+          <span>{t('navigation.table')}</span>
         </NavLink>
         <NavLink
           to="/my-tasks"
@@ -33,7 +38,7 @@ const Sidebar = () => {
           }
         >
           <UserIcon className="w-5 h-5 mr-3" />
-          <span>My Tasks</span>
+          <span>{t('navigation.myTasks')}</span>
         </NavLink>
       </nav>
     </div>

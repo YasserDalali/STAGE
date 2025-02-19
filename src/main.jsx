@@ -5,6 +5,7 @@ import './index.css'
 import App from './App.jsx'
 import store from './store/store'
 import { startPeriodicFetch, stopPeriodicFetch } from './store/tasksThunks'
+import './i18n/config'
 
 // Wrapper component to handle periodic fetch lifecycle
 const AppWrapper = () => {

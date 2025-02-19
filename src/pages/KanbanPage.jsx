@@ -1,11 +1,13 @@
 "use client"
 
 import { useSelector, useDispatch } from "react-redux"
+import { useTranslation } from "react-i18next"
 import KanbanBoard from "../components/KanbanBoard"
 import { updateTaskAsync } from "../store/tasksThunks"
 
 const KanbanPage = () => {
   const dispatch = useDispatch()
+  const { t } = useTranslation()
   const { tasks, loading, error } = useSelector((state) => state.tasks)
 
   // Handler for updating tasks that will dispatch to Redux
@@ -22,11 +24,11 @@ const KanbanPage = () => {
   }
 
   if (loading) {
-    return <div className="flex justify-center items-center h-full">Loading tasks...</div>
+    return <div className="flex justify-center items-center h-full">{t('common.loading')}</div>
   }
 
   if (error) {
-    return <div className="text-red-500">Error: {error}</div>
+    return <div className="text-red-500">{t('common.error', { message: error })}</div>
   }
 
   return (
