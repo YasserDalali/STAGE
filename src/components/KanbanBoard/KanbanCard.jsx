@@ -64,7 +64,7 @@ const KanbanCard = ({ task, index }) => {
                   onClick={(e) => e.stopPropagation()} // Prevent drag when clicking dropdown
                 >
                   <option value="TODO">{t('tasks.statuses.todo')}</option>
-                  <option value="IN_PROGRESS">{t('tasks.statuses.inProgress')}</option>
+                  <option value="IN_PROGRESS">{t('tasks.statuses.in_progress')}</option>
                   <option value="DONE">{t('tasks.statuses.done')}</option>
                 </select>
               )}

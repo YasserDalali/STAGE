@@ -7,6 +7,63 @@ import { useTable, useFilters, useSortBy, useGlobalFilter, usePagination } from 
 import PropTypes from "prop-types"
 import { updateTaskAsync } from "../store/tasksThunks"
 import getPriorityColor from "../utils/getPriorityColor"
+
+const CellPropTypes = {
+  value: PropTypes.string,
+  row: PropTypes.shape({
+    original: PropTypes.shape({
+      assignees: PropTypes.arrayOf(PropTypes.string),
+    })
+  })
+};
+
+const StatusCell = ({ value, row }) => {
+  const { t } = useTranslation();
+  const dispatch = useDispatch();
+  const { username } = useSelector((state) => state.user.user);
+  const { assignees } = row.original;
+
+  const handleStatusChange = (task, newStatus) => {
+    dispatch(updateTaskAsync({ ...task, status: newStatus }));
+  };
+
+  return assignees.includes(username) ? (
+    <select
+      value={value}
+      onChange={(e) => handleStatusChange(row.original, e.target.value)}
+      className="text-sm border rounded-md px-2 py-1 bg-gray-50 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+    >
+      <option value="TODO">{t('tasks.statuses.todo')}</option>
+      <option value="IN_PROGRESS">{t('tasks.statuses.in_progress')}</option>
+      <option value="DONE">{t('tasks.statuses.done')}</option>
+    </select>
+  ) : (
+    <p className="text-sm px-2 py-1">{t(`tasks.statuses.${value.toLowerCase()}`)}</p>
+  );
+};
+
+StatusCell.propTypes = {
+  value: PropTypes.string.isRequired,
+  row: PropTypes.shape({
+    original: PropTypes.shape({
+      assignees: PropTypes.arrayOf(PropTypes.string).isRequired,
+    }).isRequired,
+  }).isRequired,
+};
+
+const PriorityCell = ({ value }) => {
+  const { t } = useTranslation();
+  return (
+    <span className={`inline-block px-2 py-1 text-xs rounded-full ${getPriorityColor(value)}`}>
+      {t(`tasks.priorities.${value.toLowerCase()}`)}
+    </span>
+  );
+};
+
+PriorityCell.propTypes = {
+  value: PropTypes.string.isRequired,
+};
+
 const TaskTable = ({ tasks }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -37,22 +94,7 @@ const TaskTable = ({ tasks }) => {
       {
         Header: t('tasks.status'),
         accessor: "status",
-        Cell: ({ value, row }) => {
-          const { assignees } = row.original;
-          return assignees.includes(username) ? (
-            <select
-              value={value}
-              onChange={(e) => handleStatusChange(row.original, e.target.value)}
-              className="text-sm border rounded-md px-2 py-1 bg-gray-50 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            >
-              <option value="TODO">{t('tasks.statuses.todo')}</option>
-              <option value="IN_PROGRESS">{t('tasks.statuses.in_progress')}</option>
-              <option value="DONE">{t('tasks.statuses.done')}</option>
-            </select>
-          ) : (
-            <p className="text-sm px-2 py-1 bg-gray-50">{value}</p>
-          );
-        }
+        Cell: StatusCell,
       },
 
       {
@@ -73,11 +115,7 @@ const TaskTable = ({ tasks }) => {
       {
         Header: t('tasks.priority'),
         accessor: "priority",
-        Cell: ({ value }) => (
-          <span className={`inline-block px-2 py-1 text-xs rounded-full ${getPriorityColor(value)}`}>
-            {t(`tasks.priorities.${value.toLowerCase()}`)}
-          </span>
-        ),
+        Cell: PriorityCell,
       },
     ],
     [t],
