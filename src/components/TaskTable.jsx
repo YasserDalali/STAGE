@@ -47,18 +47,24 @@ const TaskTable = ({ tasks }) => {
       {
         Header: t('tasks.status'),
         accessor: "status",
-        Cell: ({ value, row }) => (
-          <select
-            value={value}
-            onChange={(e) => handleStatusChange(row.original, e.target.value)}
-            className="text-sm border rounded-md px-2 py-1 bg-gray-50 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          >
-            <option value="TODO">{t('tasks.statuses.todo')}</option>
-            <option value="IN_PROGRESS">{t('tasks.statuses.inProgress')}</option>
-            <option value="DONE">{t('tasks.statuses.done')}</option>
-          </select>
-        ),
+        Cell: ({ value, row }) => {
+          const { assignees } = row.original;
+          return assignees.includes("Current User") ? (
+            <select
+              value={value}
+              onChange={(e) => handleStatusChange(row.original, e.target.value)}
+              className="text-sm border rounded-md px-2 py-1 bg-gray-50 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+              <option value="TODO">{t('tasks.statuses.todo')}</option>
+              <option value="IN_PROGRESS">{t('tasks.statuses.in_progress')}</option>
+              <option value="DONE">{t('tasks.statuses.done')}</option>
+            </select>
+          ) : (
+            <p className="text-sm px-2 py-1 bg-gray-50">{value}</p>
+          );
+        }
       },
+
       {
         Header: t('tasks.assignees'),
         accessor: "assignees",
