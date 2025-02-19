@@ -15,6 +15,7 @@
     "myTasks": "Mes Tâches"
   },
   "tasks": {
+    
     "title": "Titre",
     "description": "Description",
     "status": "Statut",
@@ -28,8 +29,9 @@
     "createNewTask": "Créer une nouvelle tâche",
     "assigneesPlaceholder": "Jean Dupont, Marie Martin",
     "statuses": {
+
       "todo": "À faire",
-      "inProgress": "En cours",
+      "in_progress": "En cours",
       "done": "Terminé"
     },
     "priorities": {

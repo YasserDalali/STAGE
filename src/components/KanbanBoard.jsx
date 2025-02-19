@@ -1,37 +1,71 @@
 import { useState } from "react"
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd"
+import { DragDropContext } from "react-beautiful-dnd"
 import PropTypes from "prop-types"
 import CreateTaskModal from "./CreateTaskModal"
 import { useTranslation } from "react-i18next"
+import KanbanColumn from "./KanbanBoard/KanbanColumn"
 
 const KanbanBoard = ({ tasks, setTasks }) => {
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
-  const { t } = useTranslation()
+  const { t } = useTranslation();
 
   const columns = {
-    TODO: { title: "To Do", items: tasks.filter((task) => task.status === "TODO") },
-    IN_PROGRESS: { title: "In Progress", items: tasks.filter((task) => task.status === "IN_PROGRESS") },
-    DONE: { title: "Done", items: tasks.filter((task) => task.status === "DONE") },
-  }
+    TODO: {
+      title: t('tasks.statuses.todo'),
+      items: tasks.filter((task) => task.status === "TODO")
+    },
+    IN_PROGRESS: {
+      title: t('tasks.statuses.inProgress'),
+      items: tasks.filter((task) => task.status === "IN_PROGRESS")
+    },
+    DONE: {
+      title: t('tasks.statuses.done'),
+      items: tasks.filter((task) => task.status === "DONE")
+    },
+  };
 
   const onDragEnd = (result) => {
-    if (!result.destination) return
+    if (!result.destination) return;
 
-    const { source, destination } = result
-    const sourceColumn = columns[source.droppableId]
-    const destColumn = columns[destination.droppableId]
-    const [removed] = sourceColumn.items.splice(source.index, 1)
-    destColumn.items.splice(destination.index, 0, removed)
+    const { source, destination } = result;
 
-    const updatedTasks = tasks.map((task) => {
+    // Don't do anything if dropped in the same place
+    if (
+      source.droppableId === destination.droppableId &&
+      source.index === destination.index
+    ) {
+      return;
+    }
+
+    // Create new arrays to avoid mutating state directly
+    const sourceColumn = { ...columns[source.droppableId] };
+    const destColumn = { ...columns[destination.droppableId] };
+    const sourceItems = [...sourceColumn.items];
+    const destItems = [...destColumn.items];
+
+    // Remove from source array
+    const [removed] = sourceItems.splice(source.index, 1);
+
+    // If moving to same column, insert at new index
+    if (source.droppableId === destination.droppableId) {
+      sourceItems.splice(destination.index, 0, removed);
+    } else {
+      // Moving to different column
+      // Update the task's status
+      removed.status = destination.droppableId;
+      destItems.splice(destination.index, 0, removed);
+    }
+
+    // Create updated tasks array
+    const updatedTasks = tasks.map(task => {
       if (task.id === removed.id) {
-        return { ...task, status: destination.droppableId }
+        return { ...task, status: destination.droppableId };
       }
-      return task
-    })
+      return task;
+    });
 
-    setTasks(updatedTasks)
-  }
+    setTasks(updatedTasks);
+  };
 
   const formatDate = (dateString) => {
     if (!dateString) return 'No due date';
@@ -41,58 +75,23 @@ const KanbanBoard = ({ tasks, setTasks }) => {
   return (
     <>
       <div className="flex justify-between items-center mb-6">
-      <h1 className="text-3xl font-semibold mb-6">{t('navigation.kanban')}</h1>
+        <h1 className="text-3xl font-semibold">{t('navigation.kanban')}</h1>
         <button
           onClick={() => setIsCreateModalOpen(true)}
           className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
-          Create Task
+          {t('tasks.createTask')}
         </button>
       </div>
 
       <DragDropContext onDragEnd={onDragEnd}>
-        <div className="flex space-x-4">
+        <div className="flex gap-6 overflow-x-auto pb-4">
           {Object.entries(columns).map(([columnId, column]) => (
-            <div key={columnId} className="bg-gray-100 p-4 rounded-lg w-1/3">
-              <h2 className="text-lg font-semibold mb-4">{column.title}</h2>
-              <Droppable droppableId={columnId}>
-                {(provided) => (
-                  <div {...provided.droppableProps} ref={provided.innerRef} className="space-y-4">
-                    {column.items.map((task, index) => (
-                      <Draggable key={task.id} draggableId={task.id.toString()} index={index}>
-                        {(provided) => (
-                          <div
-                            ref={provided.innerRef}
-                            {...provided.draggableProps}
-                            {...provided.dragHandleProps}
-                            className="bg-white p-4 rounded-md shadow-sm"
-                          >
-                            <h3 className="font-semibold">{task.title}</h3>
-                            <p className="text-sm text-gray-600">
-                              {task.description && (
-                                <span className="block mb-2">{task.description}</span>
-                              )}
-                            </p>
-                            <p className="text-sm text-gray-600">
-                              Assignee(s): {task.assignees?.join(", ") || "Unassigned"}
-                            </p>
-                            <p className="text-sm text-gray-600">
-                              Due: {formatDate(task.dueDate)}
-                            </p>
-                            <span
-                              className={`inline-block px-2 py-1 text-xs rounded-full ${getPriorityColor(task.priority)}`}
-                            >
-                              {task.priority}
-                            </span>
-                          </div>
-                        )}
-                      </Draggable>
-                    ))}
-                    {provided.placeholder}
-                  </div>
-                )}
-              </Droppable>
-            </div>
+            <KanbanColumn
+              key={columnId}
+              columnId={columnId}
+              column={column}
+            />
           ))}
         </div>
       </DragDropContext>
@@ -102,8 +101,8 @@ const KanbanBoard = ({ tasks, setTasks }) => {
         onClose={() => setIsCreateModalOpen(false)}
       />
     </>
-  )
-}
+  );
+};
 
 const getPriorityColor = (priority) => {
   switch (priority) {
@@ -133,5 +132,5 @@ KanbanBoard.propTypes = {
   setTasks: PropTypes.func.isRequired,
 };
 
-export default KanbanBoard
+export default KanbanBoard;
 

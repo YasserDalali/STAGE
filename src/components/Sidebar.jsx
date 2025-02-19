@@ -9,7 +9,7 @@ const Sidebar = () => {
   return (
     <div className="flex flex-col w-64 bg-white border-r">
       <div className="flex items-center justify-between h-16 px-6 border-b">
-        <span className="text-2xl font-semibold text-gray-800">Task Manager</span>
+        <p className="text-2xl font-semibold text-gray-800">TicketFlow Enterprise</p>
         <LanguageToggle />
       </div>
       <nav className="flex-1 overflow-y-auto">
