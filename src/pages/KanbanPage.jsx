@@ -31,7 +31,6 @@ const KanbanPage = () => {
 
   return (
     <div>
-      <h1 className="text-3xl font-semibold mb-6">Kanban Board</h1>
       <KanbanBoard tasks={tasks} setTasks={handleTasksUpdate} />
     </div>
   )
