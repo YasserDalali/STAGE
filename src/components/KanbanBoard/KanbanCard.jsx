@@ -4,16 +4,12 @@ import { useTranslation } from "react-i18next"
 import { useDispatch, useSelector } from "react-redux"
 import { updateTaskAsync } from "../../store/tasksThunks"
 import getPriorityColor from "../../utils/getPriorityColor"
+import formatDate from "../../utils/formatDate"
+
 const KanbanCard = ({ task, index }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const { username } = useSelector((state) => state.user.user);
-
-
-  const formatDate = (dateString) => {
-    if (!dateString) return t('common.noDate');
-    return new Date(dateString).toLocaleDateString();
-  };
 
   const handleStatusChange = (e) => {
     const newStatus = e.target.value;
@@ -48,7 +44,7 @@ const KanbanCard = ({ task, index }) => {
             {task.dueDate && (
               <div className="flex items-center text-sm text-gray-600">
                 <span className="mr-2">📅</span>
-                {formatDate(task.dueDate)}
+                {formatDate(task.dueDate, t('common.noDate'))}
               </div>
             )}
             <div className="flex items-center justify-between mt-2">

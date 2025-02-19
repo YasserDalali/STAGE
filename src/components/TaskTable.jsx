@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { useTable, useFilters, useSortBy, useGlobalFilter, usePagination } from "react-table"
 import PropTypes from "prop-types"
 import { updateTaskAsync } from "../store/tasksThunks"
-import getPriorityColor from "../utils/getPriorityColor" 
+import getPriorityColor from "../utils/getPriorityColor"
 const TaskTable = ({ tasks }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -16,7 +16,7 @@ const TaskTable = ({ tasks }) => {
     dispatch(updateTaskAsync({ ...task, status: newStatus }));
   };
 
-  
+
 
   const formatDate = (dateString) => {
     if (!dateString) return t('common.noDate');
@@ -267,12 +267,12 @@ TaskTable.propTypes = {
 
 export default TaskTable
 
-// date naissance, 
-// sexe 
-// num compte, 
-// tranche salaire, 
-// mouvement compte, 
+// date naissance,
+// sexe
+// num compte,
+// tranche salaire,
+// mouvement compte,
 // rendement annuel
-// service credit 
-// 
+// service credit
+//
 // document remains (local download)
