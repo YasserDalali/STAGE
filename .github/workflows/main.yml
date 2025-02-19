@@ -1,0 +1,58 @@
+name: SonarQube Analysis
+
+on:
+  pull_request:  # Runs on PRs to main or develop branches
+    branches:
+      - main
+      - develop
+
+jobs:
+  sonar:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17 (Sonar needs Java)
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Cache SonarQube packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.sonar/cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
+
+      - name: SonarQube Scan
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_PROJECT_KEY: your-org_your-repo
+          SONAR_ORG: your-org
+        run: |
+          npm install -g sonar-scanner
+          sonar-scanner \
+            -Dsonar.projectKey=${{ env.SONAR_PROJECT_KEY }} \
+            -Dsonar.organization=${{ env.SONAR_ORG }} \
+            -Dsonar.host.url=https://sonarcloud.io \
+            -Dsonar.token=${{ env.SONAR_TOKEN }}
+
+      - name: Fail PR if Score is Below B
+        run: |
+          STATUS=$(curl -s -u ${{ secrets.SONAR_TOKEN }}: \
+            "https://sonarcloud.io/api/qualitygates/project_status?projectKey=${{ env.SONAR_PROJECT_KEY }}" \
+            | jq -r '.projectStatus.status')
+
+          RATING=$(curl -s -u ${{ secrets.SONAR_TOKEN }}: \
+            "https://sonarcloud.io/api/measures/component?component=${{ env.SONAR_PROJECT_KEY }}&metricKeys=sqale_rating" \
+            | jq -r '.component.measures[0].value')
+
+          echo "SonarQube Score: $RATING"
+
+          if [[ "$RATING" > "2.0" ]]; then  # A=1.0, B=2.0, C=3.0
+            echo "Quality Gate failed! Score is below B."
+            exit 1
+          fi
