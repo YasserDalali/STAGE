@@ -6,7 +6,7 @@ import { useTranslation } from "react-i18next"
 import KanbanColumn from "./KanbanBoard/KanbanColumn"
 import { useDispatch } from "react-redux"
 import { updateTaskAsync } from "../store/tasksThunks"
-
+import getPriorityColor from "../utils/getPriorityColor"
 const KanbanBoard = ({ tasks, setTasks }) => {
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const { t } = useTranslation();
@@ -18,7 +18,7 @@ const KanbanBoard = ({ tasks, setTasks }) => {
       items: tasks.filter((task) => task.status === "TODO")
     },
     IN_PROGRESS: {
-      title: t('tasks.statuses.inProgress'),
+      title: t('tasks.statuses.in_progress'),
       items: tasks.filter((task) => task.status === "IN_PROGRESS")
     },
     DONE: {
@@ -97,18 +97,7 @@ const KanbanBoard = ({ tasks, setTasks }) => {
   );
 };
 
-const getPriorityColor = (priority) => {
-  switch (priority) {
-    case "HIGH":
-      return "bg-red-100 text-red-800"
-    case "MEDIUM":
-      return "bg-yellow-100 text-yellow-800"
-    case "LOW":
-      return "bg-green-100 text-green-800"
-    default:
-      return "bg-gray-100 text-gray-800"
-  }
-}
+
 
 KanbanBoard.propTypes = {
   tasks: PropTypes.arrayOf(

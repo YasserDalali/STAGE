@@ -29,7 +29,7 @@
     "assigneesPlaceholder": "John Doe, Jane Smith",
     "statuses": {
       "todo": "To Do",
-      "inProgress": "In Progress",
+      "in_progress": "In Progress",
       "done": "Done"
     },
     "priorities": {

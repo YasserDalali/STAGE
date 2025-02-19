@@ -3,24 +3,12 @@ import PropTypes from "prop-types"
 import { useTranslation } from "react-i18next"
 import { useDispatch, useSelector } from "react-redux"
 import { updateTaskAsync } from "../../store/tasksThunks"
-
+import getPriorityColor from "../../utils/getPriorityColor"
 const KanbanCard = ({ task, index }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const { username } = useSelector((state) => state.user.user);
 
-  const getPriorityColor = (priority) => {
-    switch (priority) {
-      case "HIGH":
-        return "bg-red-100 text-red-800"
-      case "MEDIUM":
-        return "bg-yellow-100 text-yellow-800"
-      case "LOW":
-        return "bg-green-100 text-green-800"
-      default:
-        return "bg-gray-100 text-gray-800"
-    }
-  }
 
   const formatDate = (dateString) => {
     if (!dateString) return t('common.noDate');

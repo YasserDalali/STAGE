@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { useTable, useFilters, useSortBy, useGlobalFilter, usePagination } from "react-table"
 import PropTypes from "prop-types"
 import { updateTaskAsync } from "../store/tasksThunks"
-
+import getPriorityColor from "../utils/getPriorityColor" 
 const TaskTable = ({ tasks }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -16,18 +16,7 @@ const TaskTable = ({ tasks }) => {
     dispatch(updateTaskAsync({ ...task, status: newStatus }));
   };
 
-  const getPriorityColor = (priority) => {
-    switch (priority) {
-      case "HIGH":
-        return "bg-red-100 text-red-800"
-      case "MEDIUM":
-        return "bg-yellow-100 text-yellow-800"
-      case "LOW":
-        return "bg-green-100 text-green-800"
-      default:
-        return "bg-gray-100 text-gray-800"
-    }
-  }
+  
 
   const formatDate = (dateString) => {
     if (!dateString) return t('common.noDate');
