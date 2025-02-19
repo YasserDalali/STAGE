@@ -28,7 +28,7 @@ function Hero() {
                                     content="Download for Windows"
                                 />
 
-                                <div>Enterprise member? <Link to={"/system"} className="underline hover:font-semibold cursor-pointer transition-all">Login here
+                                <div>Enterprise member? <Link to={"/table"} className="underline hover:font-semibold cursor-pointer transition-all">Login here
                                     </Link></div>
                             </div>
                         </div>
