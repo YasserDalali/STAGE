@@ -2,11 +2,18 @@
 
 import { useState, useMemo } from "react"
 import { useTranslation } from "react-i18next"
+import { useDispatch } from "react-redux"
 import { useTable, useFilters, useSortBy, useGlobalFilter, usePagination } from "react-table"
 import PropTypes from "prop-types"
+import { updateTaskAsync } from "../store/tasksThunks"
 
 const TaskTable = ({ tasks }) => {
   const { t } = useTranslation();
+  const dispatch = useDispatch();
+
+  const handleStatusChange = (task, newStatus) => {
+    dispatch(updateTaskAsync({ ...task, status: newStatus }));
+  };
 
   const getPriorityColor = (priority) => {
     switch (priority) {
@@ -40,10 +47,16 @@ const TaskTable = ({ tasks }) => {
       {
         Header: t('tasks.status'),
         accessor: "status",
-        Cell: ({ value }) => (
-          <span className="px-2 py-1 rounded bg-gray-100">
-            {t(`tasks.statuses.${value.toLowerCase()}`)}
-          </span>
+        Cell: ({ value, row }) => (
+          <select
+            value={value}
+            onChange={(e) => handleStatusChange(row.original, e.target.value)}
+            className="text-sm border rounded-md px-2 py-1 bg-gray-50 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            <option value="TODO">{t('tasks.statuses.todo')}</option>
+            <option value="IN_PROGRESS">{t('tasks.statuses.inProgress')}</option>
+            <option value="DONE">{t('tasks.statuses.done')}</option>
+          </select>
         ),
       },
       {
@@ -65,7 +78,7 @@ const TaskTable = ({ tasks }) => {
         Header: t('tasks.priority'),
         accessor: "priority",
         Cell: ({ value }) => (
-          <span className={`px-2 py-1 rounded ${getPriorityColor(value)}`}>
+          <span className={`inline-block px-2 py-1 text-xs rounded-full ${getPriorityColor(value)}`}>
             {t(`tasks.priorities.${value.toLowerCase()}`)}
           </span>
         ),

@@ -4,10 +4,13 @@ import PropTypes from "prop-types"
 import CreateTaskModal from "./CreateTaskModal"
 import { useTranslation } from "react-i18next"
 import KanbanColumn from "./KanbanBoard/KanbanColumn"
+import { useDispatch } from "react-redux"
+import { updateTaskAsync } from "../store/tasksThunks"
 
 const KanbanBoard = ({ tasks, setTasks }) => {
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const { t } = useTranslation();
+  const dispatch = useDispatch();
 
   const columns = {
     TODO: {
@@ -37,33 +40,23 @@ const KanbanBoard = ({ tasks, setTasks }) => {
       return;
     }
 
-    // Create new arrays to avoid mutating state directly
-    const sourceColumn = { ...columns[source.droppableId] };
-    const destColumn = { ...columns[destination.droppableId] };
-    const sourceItems = [...sourceColumn.items];
-    const destItems = [...destColumn.items];
+    // Find the task that was dragged
+    const sourceColumn = columns[source.droppableId];
+    const draggedTask = sourceColumn.items[source.index];
 
-    // Remove from source array
-    const [removed] = sourceItems.splice(source.index, 1);
+    // Create updated task with new status
+    const updatedTask = {
+      ...draggedTask,
+      status: destination.droppableId
+    };
 
-    // If moving to same column, insert at new index
-    if (source.droppableId === destination.droppableId) {
-      sourceItems.splice(destination.index, 0, removed);
-    } else {
-      // Moving to different column
-      // Update the task's status
-      removed.status = destination.droppableId;
-      destItems.splice(destination.index, 0, removed);
-    }
+    // Update the task in the backend
+    dispatch(updateTaskAsync(updatedTask));
 
-    // Create updated tasks array
-    const updatedTasks = tasks.map(task => {
-      if (task.id === removed.id) {
-        return { ...task, status: destination.droppableId };
-      }
-      return task;
-    });
-
+    // Update local state to reflect the change immediately
+    const updatedTasks = tasks.map(task =>
+      task.id === draggedTask.id ? updatedTask : task
+    );
     setTasks(updatedTasks);
   };
 

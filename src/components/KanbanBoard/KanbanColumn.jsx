@@ -7,7 +7,7 @@ const KanbanColumn = ({ columnId, column }) => {
   const { t } = useTranslation();
 
   return (
-    <div className="bg-white rounded-lg shadow-lg p-4 min-w-[300px] flex flex-col">
+    <div className="bg-white rounded-lg shadow-lg p-4 min-w-[300px] flex flex-col h-full">
       <h3 className="text-lg font-semibold mb-4">
         {t(`tasks.statuses.${columnId.toLowerCase()}`)}
         <span className="ml-2 text-sm text-gray-500">({column.items.length})</span>
@@ -17,8 +17,8 @@ const KanbanColumn = ({ columnId, column }) => {
           <div
             {...provided.droppableProps}
             ref={provided.innerRef}
-            className={`flex-1 min-h-[500px] transition-colors ${snapshot.isDraggingOver ? 'bg-blue-50' : 'bg-gray-50'
-              } rounded-md p-2`}
+            className={`flex-1 min-h-[500px] transition-colors rounded-md p-3 ${snapshot.isDraggingOver ? 'bg-blue-50 ring-2 ring-blue-200' : 'bg-gray-50'
+              }`}
           >
             <div className="space-y-3">
               {column.items.map((task, index) => (
