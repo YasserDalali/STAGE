@@ -1,12 +1,13 @@
 import { Draggable } from "react-beautiful-dnd"
 import PropTypes from "prop-types"
 import { useTranslation } from "react-i18next"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { updateTaskAsync } from "../../store/tasksThunks"
 
 const KanbanCard = ({ task, index }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
+  const { username } = useSelector((state) => state.user.user);
 
   const getPriorityColor = (priority) => {
     switch (priority) {
@@ -31,6 +32,8 @@ const KanbanCard = ({ task, index }) => {
     dispatch(updateTaskAsync({ ...task, status: newStatus }));
   };
 
+  const canEditStatus = task.assignees?.includes(username);
+
   return (
     <Draggable draggableId={task.id.toString()} index={index}>
       {(provided, snapshot) => (
@@ -43,7 +46,6 @@ const KanbanCard = ({ task, index }) => {
         >
           <div className="flex justify-between items-start mb-2">
             <h3 className="font-semibold text-gray-900">{task.title}</h3>
-
           </div>
           {task.description && (
             <p className="mt-1 text-sm text-gray-600 line-clamp-2">
@@ -68,20 +70,20 @@ const KanbanCard = ({ task, index }) => {
                 )}`}
               >
                 {t(`tasks.priorities.${task.priority.toLowerCase()}`)}
-
-
               </span>
 
-              <select
-                value={task.status}
-                onChange={handleStatusChange}
-                className="text-xs border rounded-md px-1 py-0.5 bg-gray-50 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                onClick={(e) => e.stopPropagation()} // Prevent drag when clicking dropdown
-              >
-                <option value="TODO">{t('tasks.statuses.todo')}</option>
-                <option value="IN_PROGRESS">{t('tasks.statuses.inProgress')}</option>
-                <option value="DONE">{t('tasks.statuses.done')}</option>
-              </select>
+              {canEditStatus && (
+                <select
+                  value={task.status}
+                  onChange={handleStatusChange}
+                  className="text-xs border rounded-md px-1 py-0.5 bg-gray-50 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  onClick={(e) => e.stopPropagation()} // Prevent drag when clicking dropdown
+                >
+                  <option value="TODO">{t('tasks.statuses.todo')}</option>
+                  <option value="IN_PROGRESS">{t('tasks.statuses.inProgress')}</option>
+                  <option value="DONE">{t('tasks.statuses.done')}</option>
+                </select>
+              )}
             </div>
           </div>
         </div>

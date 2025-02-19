@@ -4,10 +4,11 @@ import TaskTable from "../components/TaskTable"
 
 const MyTasksPage = () => {
   const { t } = useTranslation();
-  const { tasks, loading, error } = useSelector((state) => state.tasks)
+  const { tasks, loading, error } = useSelector((state) => state.tasks);
+  const { username } = useSelector((state) => state.user.user);
 
   // Filter tasks for current user
-  const myTasks = tasks.filter((task) => task.assignees.includes("Current User"))
+  const myTasks = tasks.filter((task) => task.assignees.includes(username));
 
   if (loading) {
     return <div className="flex justify-center items-center h-full">{t('common.loading')}</div>
