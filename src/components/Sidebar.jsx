@@ -7,16 +7,33 @@ const Sidebar = () => {
   const { t } = useTranslation();
 
   return (
-    <div className="flex flex-col w-64 bg-white border-r">
-      <div className="flex items-center justify-between h-16 px-6 border-b">
-        <p className="text-2xl font-semibold text-gray-800">TicketFlow Enterprise</p>
-        <LanguageToggle />
+    <div className="flex flex-col w-64 bg-white border-r shadow-lg">
+      <div className="flex items-center justify-between  px-6 border-b bg-gray-50">
+        <div className="flex w-full flex-col items-center py-4 gap-3">
+          <div className="flex w-full justify-between"> 
+          
+                    <LanguageToggle />
+
+          </div>
+
+
+          <div className="flex">
+                      <p className="text-xl font-semibold text-gray-800">TicketFlow <span className=" text-[10px] bg-orange-400/20 px-2 py-1 rounded-xl">Enterprise <img 
+            src="https://www.zonebourse.com/static/private-issuer-squared-9I42B.png" 
+            alt="Logo" 
+            className="w-[15px] inline" 
+          /></span></p>
+                      
+          </div>
+
+        </div>
+
       </div>
       <nav className="flex-1 overflow-y-auto">
         <NavLink
           to="/kanban"
           className={({ isActive }) =>
-            `flex items-center px-6 py-3 text-gray-600 hover:bg-gray-100 ${isActive ? "bg-gray-100" : ""}`
+            `flex items-center px-6 py-3 text-gray-600 hover:bg-gray-200 transition-colors duration-200 ${isActive ? "bg-gray-200" : ""}`
           }
         >
           <ViewBoardsIcon className="w-5 h-5 mr-3" />
@@ -25,7 +42,7 @@ const Sidebar = () => {
         <NavLink
           to="/table"
           className={({ isActive }) =>
-            `flex items-center px-6 py-3 text-gray-600 hover:bg-gray-100 ${isActive ? "bg-gray-100" : ""}`
+            `flex items-center px-6 py-3 text-gray-600 hover:bg-gray-200 transition-colors duration-200 ${isActive ? "bg-gray-200" : ""}`
           }
         >
           <TableIcon className="w-5 h-5 mr-3" />
@@ -34,7 +51,7 @@ const Sidebar = () => {
         <NavLink
           to="/my-tasks"
           className={({ isActive }) =>
-            `flex items-center px-6 py-3 text-gray-600 hover:bg-gray-100 ${isActive ? "bg-gray-100" : ""}`
+            `flex items-center px-6 py-3 text-gray-600 hover:bg-gray-200 transition-colors duration-200 ${isActive ? "bg-gray-200" : ""}`
           }
         >
           <UserIcon className="w-5 h-5 mr-3" />
@@ -46,4 +63,3 @@ const Sidebar = () => {
 }
 
 export default Sidebar
-
