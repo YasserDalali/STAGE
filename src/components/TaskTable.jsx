@@ -8,29 +8,16 @@ import PropTypes from "prop-types"
 import { updateTaskAsync } from "../store/tasksThunks"
 import getPriorityColor from "../utils/getPriorityColor"
 
-const CellPropTypes = {
-  value: PropTypes.string,
-  row: PropTypes.shape({
-    original: PropTypes.shape({
-      assignees: PropTypes.arrayOf(PropTypes.string),
-    })
-  })
-};
-
 const StatusCell = ({ value, row }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const { username } = useSelector((state) => state.user.user);
   const { assignees } = row.original;
 
-  const handleStatusChange = (task, newStatus) => {
-    dispatch(updateTaskAsync({ ...task, status: newStatus }));
-  };
-
   return assignees.includes(username) ? (
     <select
       value={value}
-      onChange={(e) => handleStatusChange(row.original, e.target.value)}
+      onChange={(e) => dispatch(updateTaskAsync({ ...row.original, status: e.target.value }))}
       className="text-sm border rounded-md px-2 py-1 bg-gray-50 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
     >
       <option value="TODO">{t('tasks.statuses.todo')}</option>
@@ -38,7 +25,7 @@ const StatusCell = ({ value, row }) => {
       <option value="DONE">{t('tasks.statuses.done')}</option>
     </select>
   ) : (
-    <p className="text-sm px-2 py-1">{t(`tasks.statuses.${value.toLowerCase()}`)}</p>
+    <p className="text-sm px-2 py-1 bg-gray-50">{t(`tasks.statuses.${value.toLowerCase()}`)}</p>
   );
 };
 
@@ -68,12 +55,6 @@ const TaskTable = ({ tasks }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const { username } = useSelector((state) => state.user.user);
-
-  const handleStatusChange = (task, newStatus) => {
-    dispatch(updateTaskAsync({ ...task, status: newStatus }));
-  };
-
-
 
   const formatDate = (dateString) => {
     if (!dateString) return t('common.noDate');
@@ -125,7 +106,6 @@ const TaskTable = ({ tasks }) => {
     getTableProps,
     getTableBodyProps,
     headerGroups,
-    rows,
     prepareRow,
     state,
     setGlobalFilter,
@@ -191,13 +171,13 @@ const TaskTable = ({ tasks }) => {
             ))}
           </thead>
           <tbody {...getTableBodyProps()}>
-            {page.map((row) => {
+            {page.map((row, i) => {
               prepareRow(row)
               return (
-                <tr {...row.getRowProps()} className="border-b border-gray-200 hover:bg-gray-50 transition-colors">
+                <tr key={`row-${i}`} {...row.getRowProps()} className="border-b border-gray-200 hover:bg-gray-50 transition-colors">
                   {row.cells.map((cell, cellIndex) => (
                     <td
-                      key={cellIndex}
+                      key={`cell-${i}-${cellIndex}`}
                       {...cell.getCellProps()}
                       className="px-6 py-4 whitespace-nowrap text-sm text-gray-700"
                     >
